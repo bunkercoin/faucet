@@ -35,9 +35,9 @@ app.get(`/`, async (request, response) => {
         const status = request.query.status;
         if (status === "0") { // Success
             // Check if an txid was specified
-            if (!request.query.txid || !request.query.value) {
+            if (!request.query.txid) {
                 response.status(200).render(`error.ejs`, {
-                    error: `Please specify a TXID and a value.`
+                    error: `Please specify a TXID.`
                 });
                 return;
             }
