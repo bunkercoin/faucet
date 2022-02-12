@@ -90,20 +90,20 @@ app.get(`/`, async (request, response) => {
             if (dateToClaim_ip && dateToClaim_address) {
                 if (dateToClaim_ip.expires > dateToClaim_address.expires) {
                     response.status(200).render(`error.ejs`, {
-                        error: `${message}${new Date(dateToClaim_ip.expires).toLocaleString()}!`
+                        error: `${message}${new Date(dateToClaim_ip.expires).toUTCString()}!`
                     });
                 } else if (dateToClaim_ip.expires < dateToClaim_address.expires) {
                     response.status(200).render(`error.ejs`, {
-                        error: `${message}${new Date(dateToClaim_address.expires).toLocaleString()}!`
+                        error: `${message}${new Date(dateToClaim_address.expires).toUTCString()}!`
                     });
                 }
             } else if (dateToClaim_ip) {
                 response.status(200).render(`error.ejs`, {
-                    error: `${message}${new Date(dateToClaim_ip.expires).toLocaleString()}!`
+                    error: `${message}${new Date(dateToClaim_ip.expires).toUTCString()}!`
                 });
             } else if (dateToClaim_address) {
                 response.status(200).render(`error.ejs`, {
-                    error: `${message}${new Date(dateToClaim_address.expires).toLocaleString()}!`
+                    error: `${message}${new Date(dateToClaim_address.expires).toUTCString()}!`
                 });
             } else {
                 response.status(302).redirect(`/`);
@@ -122,7 +122,7 @@ app.get(`/`, async (request, response) => {
     const dateToClaim_ip = db.prepare(`SELECT expires FROM limitByIP WHERE ip=?`).get(ip);
     if (dateToClaim_ip) {
         response.status(200).render(`error.ejs`, {
-            error: `Hi! It looks like you've already claimed your Bunkercoins for today! Please come back at ${new Date(dateToClaim_ip.expires).toLocaleString()}!`
+            error: `Hi! It looks like you've already claimed your Bunkercoins for today! Please come back at ${new Date(dateToClaim_ip.expires).toUTCString()}!`
         });
         return;
     }
