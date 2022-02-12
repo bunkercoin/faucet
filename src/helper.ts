@@ -107,7 +107,7 @@ export const amountToSend = async (): Promise<number> => {
             resolve(5);
             return;
         }
-        resolve(walletBalance / 1000);
+        resolve(parseFloat((walletBalance / 1000).toFixed(5)));
         return;
     });
 };
