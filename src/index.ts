@@ -14,13 +14,6 @@ app.use(express.urlencoded({ extended: true })); // Parse form data
 app.set(`view engine`, `ejs`); // Set the view engine to ejs
 app.set(`views`, `public`) // Set ejs directory
 
-// https://github.com/expressjs/express/issues/4060 - To supress "Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client"
-app.use((q, rs, n) => {
-    const r = rs.render; const s = rs.send; rs.render = (...a: any) => { try { r.apply(rs, a) } catch { } }
-    //@ts-ignore
-    rs.send = (...a: any) => { try { s.apply(rs, a) } catch { } }; n()
-});
-
 app.use("/", express.static("public/static", { // Make CSS + favicon available
     "setHeaders": (response) => {
         response.set(`Cache-Control`, `public, max-age=604800, must-revalidate`); // Cache for 1 week
@@ -51,16 +44,18 @@ app.get(`/`, async (request, response) => {
                 return;
             }
 
-            const { value, address } = await helper.txidToValueAndAdress(txid).catch((error: string) => {
+            const { amount, address } = await helper.txidToValueAndAdress(txid).catch((error: string) => {
                 response.status(200).render(`error.ejs`, {
                     error: error,
                 });
-                return { value: 0, address: "" };
+                return { amount: undefined, address: undefined };
             });
+
+            if (amount === undefined && address === undefined) return;
 
             response.status(200).render(`success.ejs`, {
                 txid: txid,
-                value: value,
+                amount: amount,
                 address: address,
             });
         } else if (status === "1") { // No address provided
@@ -131,13 +126,14 @@ app.get(`/`, async (request, response) => {
         response.status(500).render(`error.ejs`, {
             error: error,
         });
+        return undefined;
     });
 
-    try {
-        response.status(200).render(`index.ejs`, {
-            balance: balance,
-        });
-    } catch { }
+    if (balance === undefined) return;
+
+    response.status(200).render(`index.ejs`, {
+        balance: balance,
+    });
 });
 
 app.post(`/receive`, async (request, response) => {
@@ -204,8 +200,10 @@ app.post(`/receive`, async (request, response) => {
             response.status(500).render(`error.ejs`, {
                 error: error,
             });
-            return "";
+            return undefined;
         });
+
+        if (txid === undefined) return;
 
         // Add the IP and address to the database
         db.prepare(`INSERT INTO limitByIP (ip, expires) VALUES (?, ?)`).run(ip, Date.now() + (1000 * 60 * 60 * 24));
