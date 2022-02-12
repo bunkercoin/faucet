@@ -88,7 +88,7 @@ export const sendCoins = (address: string, amount: number): Promise<string> => {
 export const txidToValueAndAdress = async (txid: string): Promise<{ value: number, address: string }> => {
     return new Promise(async (resolve, reject) => {
         // Get the data from the database
-        const data = db.prepare(`SELECT value, address FROM log WHERE txid=?`).all(txid);
+        const data = db.prepare(`SELECT amount, address FROM log WHERE txid=?`).all(txid);
 
         if (data.length < 1) {
             reject("Transaction not found.");
