@@ -1,0 +1,9 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# Database
+main.sqlite3
+
+# Build files
+build/

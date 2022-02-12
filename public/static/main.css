@@ -1,0 +1,71 @@
+/* Set Comic Sans font and background color on the body */
+body {
+    background-color: #77C277;
+    font-family: "Comic Sans MS";
+    color: #212121;
+}
+
+p {
+    font-size: large;
+}
+
+.main {
+    background-color: #F0F0F0;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 15px 40px;
+    border-radius: 10px;
+}
+
+fieldset {
+    display: inline-block;
+    padding: 15px 25px;
+    width: 75%;
+}
+
+legend {
+    font-size: 1.2em;
+}
+
+input[type=text] {
+    width: 80%;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: black;
+}
+
+input[type=submit] {
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: black;
+}
+
+/* Patch to show the parent font on submit buttons as well */
+input {
+    font-family: inherit;
+    font-size: 1em;
+}
+
+/* Improve the links */
+a:link,
+a:visited {
+    color: black;
+    text-decoration: underline;
+}
+
+a:hover,
+a:active {
+    color: #77C277;
+    text-decoration: underline;
+}
+
+
+/* Selection customization™ */
+::selection {
+    color: #77C277;
+    background-color: #F0F0F0;
+}
