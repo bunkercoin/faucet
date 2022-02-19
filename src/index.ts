@@ -116,10 +116,14 @@ app.get(`/`, async (request, response) => {
     const ip = sha256((<string>request.headers["x-forwarded-for"]).split(",").slice(-1)[0]);
     const dateToClaim_ip = db.prepare(`SELECT expires FROM limitByIP WHERE ip=?`).get(ip);
     if (dateToClaim_ip) {
-        response.status(200).render(`error.ejs`, {
-            error: `Hi! It looks like you've already claimed your Bunkercoins for today! Please come back at ${new Date(dateToClaim_ip.expires).toUTCString()}!`
-        });
-        return;
+        if (dateToClaim_ip.expires < Date.now()) {
+            db.prepare(`DELETE FROM limitByIP WHERE ip=?`).run(ip);
+        } else {
+            response.status(200).render(`error.ejs`, {
+                error: `Hi! It looks like you've already claimed your Bunkercoins for today! Please come back at ${new Date(dateToClaim_ip.expires).toUTCString()}!`
+            });
+            return;
+        }
     }
 
     const balance = await helper.getBalance().catch((error: string) => {
