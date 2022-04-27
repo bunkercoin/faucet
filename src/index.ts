@@ -111,13 +111,18 @@ app.get(`/`, async (request, response) => {
                     error: `${message}${new Date(dateToClaim_address.expires).toUTCString()}!`,
                 });
             } else {
-                response.status(302).redirect(`/`);
+                response.redirect(302, `/`);
             }
             return;
         } else if (status === `4`) {
             // No hCaptcha response
             response.status(200).render(`error.ejs`, {
                 error: `Please complete the hCaptcha.`,
+            });
+        } else if (status === `5`) {
+            // Burn address
+            response.status(200).render(`error.ejs`, {
+                error: `Don't use a burn address.`,
             });
         }
         return;
@@ -156,25 +161,25 @@ app.get(`/`, async (request, response) => {
 app.post(`/receive`, async (request, response) => {
     // Check if an address was provided
     if (!request.body[`address`]) {
-        response.status(302).redirect(`/?status=1`); // No address provided
-        return;
-    }
-
-    if (!request.body[`h-captcha-response`]) {
-        response.status(302).redirect(`/?status=4`); // No hCaptcha token provided
+        response.redirect(302, `/?status=1`); // No address provided
         return;
     }
 
     // Check if the user passed the hCaptcha test
-    const passed = await helper.verifyHcaptcha(request.body[`h-captcha-response`]);
-    if (!passed) {
-        response.status(302).redirect(`/?status=4`); // No hCaptcha token provided
+    if (!request.body[`h-captcha-response`] || !await helper.verifyHcaptcha(request.body[`h-captcha-response`])) {
+        response.redirect(302, `/?status=4`); // No hCaptcha token provided
         return;
     }
 
     // Check if the address is a valid BKC address
     const address = <string>request.body.address;
     if (/^[B][a-zA-Z0-9]{33}$/.test(address)) {
+        // Check if it's a burn address
+        if (helper.burnAddress(address)) {
+            response.redirect(302, `/?status=5`); // Burn address
+            return;
+        }
+
         // Get the IP address of the user
         const ip = sha256((<string>request.headers[`x-forwarded-for`]).split(`,`).slice(-1)[0]);
 
@@ -184,7 +189,7 @@ app.post(`/receive`, async (request, response) => {
 
         if (byIP.length > 0 && byAddress.length > 0) {
             if (byIP[0].expires > Date.now() || byAddress[0].expires > Date.now()) {
-                response.status(302).redirect(`/?status=3&address=${address}`); // User has already claimed Bunkercoins
+                response.redirect(302, `/?status=3&address=${address}`); // User has already claimed Bunkercoins
                 return;
             } else {
                 // If it expired, delete the record
@@ -193,7 +198,7 @@ app.post(`/receive`, async (request, response) => {
             }
         } else if (byIP.length > 0) {
             if (byIP[0].expires > Date.now()) {
-                response.status(302).redirect(`/?status=3&address=${address}`); // User has already claimed Bunkercoins
+                response.redirect(302, `/?status=3&address=${address}`); // User has already claimed Bunkercoins
                 return;
             } else {
                 // If it expired, delete the record
@@ -201,7 +206,7 @@ app.post(`/receive`, async (request, response) => {
             }
         } else if (byAddress.length > 0) {
             if (byAddress[0].expires > Date.now()) {
-                response.status(302).redirect(`/?status=3&address=${address}`); // User has already claimed Bunkercoins
+                response.redirect(302, `/?status=3&address=${address}`); // User has already claimed Bunkercoins
                 return;
             } else {
                 // If it expired, delete the record
@@ -233,11 +238,11 @@ app.post(`/receive`, async (request, response) => {
         );
 
         // Log the payment
-        await helper.logPayment(address, amountToSend, txid);
+        helper.logPayment(address, amountToSend, txid);
 
-        response.status(302).redirect(`/?status=0&txid=${txid}`); // Success
+        response.redirect(302, `/?status=0&txid=${txid}`); // Success
     } else {
-        response.status(302).redirect(`/?status=2`); // Invalid address
+        response.redirect(302, `/?status=2`); // Invalid address
     }
 });
 

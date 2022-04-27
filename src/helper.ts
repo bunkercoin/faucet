@@ -152,11 +152,16 @@ export const verifyHcaptcha = (token: string): Promise<boolean> => {
     });
 };
 
-export const logPayment = async (address: string, amount: number, txid: string) => {
+export const logPayment = (address: string, amount: number, txid: string): void => {
     db.prepare(`INSERT INTO log (time, address, amount, txid) VALUES (?, ?, ?, ? )`).run(
         new Date().toUTCString().replace(`,`, ``),
         address,
         amount,
         txid,
     );
+};
+
+export const burnAddress = (address: string): boolean => {
+    const result = db.prepare(`SELECT * FROM burn WHERE address=?`).all(address);
+    return result.find((row) => row.address === address) !== undefined;
 };
