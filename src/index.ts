@@ -161,6 +161,7 @@ app.get(`/`, async (request, response) => {
 
 	response.status(200).render(`index.ejs`, {
 		balance: balance,
+        aads: config.aads,
 	});
 });
 

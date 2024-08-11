@@ -1,46 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" translate="no">
+	<head>
+		<!-- Browser standards -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="referrer" content="no-referrer" />
 
-<head>
-    <!-- Browser standards -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" sizes="128x128" href="/favicon.png" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
+		<!-- CSS -->
+		<link rel="stylesheet" href="/main.css" />
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="/main.css">
+		<!-- SEO -->
+		<title>Faucet | Bunkercoin</title>
+		<meta name="description" content="A faucet to get free Bunkercoins!" />
+		<meta name="author" content="The Bunkercoin Team" />
+		<meta name="keywords" content="bunkercoin, Bunkercoin, bunkercoins, Bunkercoins, faucet, Faucet" />
+		<meta property="og:title" content="Faucet | Bunkercoin" />
+		<meta property="og:description" content="A faucet to get free Bunkercoins!" />
+		<meta property="og:url" content="https://faucet.bunkercoin.xyz" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:image" content="/favicon.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="faucet.bunkercoin.xyz" />
 
-    <!-- SEO -->
-    <title>Faucet | Bunkercoin</title>
-    <meta name="description" content="A faucet to get free Bunkercoins!">
-    <meta name="author" content="The Bunkercoin Team">
-    <meta name="keywords" content="bunkercoin, Bunkercoin, bunkercoins, Bunkercoins, faucet, Faucet">
-    <meta property="og:title" content="Faucet | Bunkercoin">
-    <meta property="og:description" content="A faucet to get free Bunkercoins!">
-    <meta property="og:url" content="https://faucet.bunkercoin.xyz">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="/favicon.png">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="faucet.bunkercoin.xyz">
+		<!-- Twitter -->
+		<meta name="twitter:site" content="@bunkercoin" />
+		<meta name="twitter:creator" content="@bunkercoin" />
+		<meta name="twitter:title" content="Faucet | Bunkercoin" />
+		<meta name="twitter:description" content="A faucet to get free Bunkercoins!" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content="/favicon.png" />
+	</head>
 
-    <!-- Twitter -->
-    <meta name="twitter:site" content="@bunkercoin">
-    <meta name="twitter:creator" content="@bunkercoin">
-    <meta name="twitter:title" content="Faucet | Bunkercoin">
-    <meta name="twitter:description" content="A faucet to get free Bunkercoins!">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="/favicon.png">
-</head>
-
-<body>
-    <div class="main">
-        <h1>Great!</h1>
-        <p><%= amount %> Bunkercoins have been sent to <%= address %> with txid <a href="https://explorer.bunkercoin.xyz/?action=tx&v=<%= txid %>"><%= txid %></a></p>
-    </div>
-</body>
-
+	<body>
+		<div class="main">
+			<h1>Great!</h1>
+			<p>
+				<%= amount %> Bunkercoins have been sent to <%= address %> with txid
+				<a href="https://explorer.bunkercoin.xyz/?action=tx&v=<%= txid %>"> <%= txid %> </a>
+			</p>
+		</div>
+	</body>
 </html>

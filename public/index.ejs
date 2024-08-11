@@ -1,79 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" translate="no">
+	<head>
+		<!-- Browser standards -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="referrer" content="no-referrer" />
 
-<head>
-    <!-- Browser standards -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" sizes="128x128" href="/favicon.png" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
+		<!-- CSS -->
+		<link rel="stylesheet" href="/main.css" />
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="/main.css">
+		<!-- SEO -->
+		<title>Faucet | Bunkercoin</title>
+		<meta name="description" content="A faucet to get free Bunkercoins!" />
+		<meta name="author" content="The Bunkercoin Team" />
+		<meta name="keywords" content="bunkercoin, Bunkercoin, bunkercoins, Bunkercoins, faucet, Faucet" />
+		<meta property="og:title" content="Faucet | Bunkercoin" />
+		<meta property="og:description" content="A faucet to get free Bunkercoins!" />
+		<meta property="og:url" content="https://faucet.bunkercoin.xyz" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:image" content="/favicon.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="faucet.bunkercoin.xyz" />
 
-    <!-- SEO -->
-    <title>Faucet | Bunkercoin</title>
-    <meta name="description" content="A faucet to get free Bunkercoins!">
-    <meta name="author" content="The Bunkercoin Team">
-    <meta name="keywords" content="bunkercoin, Bunkercoin, bunkercoins, Bunkercoins, faucet, Faucet">
-    <meta property="og:title" content="Faucet | Bunkercoin">
-    <meta property="og:description" content="A faucet to get free Bunkercoins!">
-    <meta property="og:url" content="https://faucet.bunkercoin.xyz">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="/favicon.png">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="faucet.bunkercoin.xyz">
+		<!-- Twitter -->
+		<meta name="twitter:site" content="@bunkercoin" />
+		<meta name="twitter:creator" content="@bunkercoin" />
+		<meta name="twitter:title" content="Faucet | Bunkercoin" />
+		<meta name="twitter:description" content="A faucet to get free Bunkercoins!" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content="/favicon.png" />
 
-    <!-- Twitter -->
-    <meta name="twitter:site" content="@bunkercoin">
-    <meta name="twitter:creator" content="@bunkercoin">
-    <meta name="twitter:title" content="Faucet | Bunkercoin">
-    <meta name="twitter:description" content="A faucet to get free Bunkercoins!">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="/favicon.png">
+		<!-- hCaptcha -->
+		<script src="https://js.hcaptcha.com/1/api.js?recaptchacompat=off" async defer></script>
+	</head>
 
-    <!-- hCaptcha -->
-    <script src="https://js.hcaptcha.com/1/api.js?recaptchacompat=off" async defer></script>
-</head>
+	<body>
+		<div class="main">
+			<center>
+				<h1>Welcome to the Bunkercoin faucet!</h1>
+				<form action="/receive" method="post">
+					<fieldset>
+						<legend>Your Bunkercoin address:</legend>
+						<input
+							type="text"
+							name="address"
+							id="address"
+							value=""
+							placeholder="BK7cf68uePZDPdDTPUGV92Fd9YEEbxTTG1"
+							required
+						/><br /><br />
+						<div class="h-captcha" data-sitekey="e45c2f10-573d-4e71-8835-abcb6b240dbf"></div>
+						<input type="submit" id="submit" value="Submit" />
+					</fieldset>
+				</form>
 
-<body>
-    <div class="main">
-        <center>
-            <h1>Welcome to the Bunkercoin faucet!</h1>
-            <form action="/receive" method="post">
-                <fieldset>
-                    <legend>Your Bunkercoin address:</legend>
-                    <input type="text" name="address" id="address" value=""
-                        placeholder="BK7cf68uePZDPdDTPUGV92Fd9YEEbxTTG1" required><br><br>
-                    <div class="h-captcha" data-sitekey="e45c2f10-573d-4e71-8835-abcb6b240dbf"></div>
-                    <input type="submit" id="submit" value="Submit">
-                </fieldset>
-            </form>
+				<footer>
+					<p style="margin-bottom: -2%">
+						<abbr
+							title="You can donate to BG7bfnZL3aY6GiooGK13YbhzMtS8wxzEtM"
+							style="text-decoration: underline"
+							>Faucet balance:</abbr
+						>
+						<%= balance %> bkc<br />
+					</p>
+					<p>&copy; The Bunkercoin Project - 2022</p>
+				</footer>
+			</center>
+		</div>
+		<div class="ad">
+			<div id="frame" style="width: 100%; height: 100%">
+				<iframe
+					data-aa="<%= aads %>"
+					src="//acceptable.a-ads.com/<%= aads %>"
+					style="
+						border: 0px;
+						padding: 0;
+						width: 100%;
+						height: 100%;
+						overflow: hidden;
+						background-color: transparent;
+					"
+				></iframe
+				><a
+					style="display: block; text-align: right; font-size: 12px"
+					id="preview-link"
+					href="https://aads.com/campaigns/new/?source_id=<%= aads %>&source_type=ad_unit&partner=<%= aads %>"
+					>Advertise here</a
+				>
+			</div>
+		</div>
 
-            <footer>
-                <p style="margin-bottom: -2%;"><abbr title="You can donate to BG7bfnZL3aY6GiooGK13YbhzMtS8wxzEtM"
-                        style="text-decoration: underline;">Faucet balance:</abbr>
-                    <%= balance %> bkc<br>
-                </p>
-                <p>&copy; The Bunkercoin Project - 2022</p>
-            </footer>
-        </center>
-    </div>
-    <div class="ad">
-        <iframe data-aa="1933770" src="//acceptable.a-ads.com/1933770"
-            style="border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;"></iframe>
-
-    </div>
-
-    <script>
-        // Don't display the ad if the user is on mobile
-        if (window.innerWidth < (window.innerHeight * 1.3)) {
-            document.querySelector(".ad")["style"]["display"] = "none";
-        }
-    </script>
-</body>
-
+		<script>
+			// Don't display the ad if the user is on mobile
+			if (window.innerWidth < window.innerHeight * 1.3) {
+				document.querySelector(".ad")["style"]["display"] = "none";
+			}
+		</script>
+	</body>
 </html>
