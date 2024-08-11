@@ -131,7 +131,7 @@ export const verifyHcaptcha = (token: string): Promise<boolean> => {
 	return new Promise(async (resolve, reject) => {
 		// Make the request
 		const data: any = await (
-			await fetch(`https://hcaptcha.com/siteverify?secret=${config.hcaptcha}&response=${token}`, {
+			await fetch(`https://hcaptcha.com/siteverify?secret=${config.hcaptcha.api}&response=${token}`, {
 				method: `POST`,
 				headers: {
 					"Content-Type": `application/json`,

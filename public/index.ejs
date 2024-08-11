@@ -50,10 +50,10 @@
 							name="address"
 							id="address"
 							value=""
-							placeholder="BK7cf68uePZDPdDTPUGV92Fd9YEEbxTTG1"
+							placeholder="<%= donate %>"
 							required
 						/><br /><br />
-						<div class="h-captcha" data-sitekey="e45c2f10-573d-4e71-8835-abcb6b240dbf"></div>
+						<div class="h-captcha" data-sitekey="<%= captcha %>"></div>
 						<input type="submit" id="submit" value="Submit" />
 					</fieldset>
 				</form>
@@ -61,13 +61,13 @@
 				<footer>
 					<p style="margin-bottom: -2%">
 						<abbr
-							title="You can donate to BG7bfnZL3aY6GiooGK13YbhzMtS8wxzEtM"
+							title="You can donate to <%= donate %>"
 							style="text-decoration: underline"
 							>Faucet balance:</abbr
 						>
 						<%= balance %> bkc<br />
 					</p>
-					<p>&copy; The Bunkercoin Project - 2022</p>
+					<p>&copy; The Bunkercoin Project - <%= copyright %></p>
 				</footer>
 			</center>
 		</div>

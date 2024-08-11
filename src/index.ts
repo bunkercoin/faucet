@@ -62,6 +62,7 @@ app.get(`/`, async (request, response) => {
 				txid: txid,
 				amount: amount,
 				address: address,
+				explorer: config.web_page.explorer_link,
 			});
 		} else if (status === `1`) {
 			// No address provided
@@ -84,8 +85,7 @@ app.get(`/`, async (request, response) => {
 			}
 
 			// Get the IP address of the user
-			// const ip = sha256(<string>request.headers[`x-forwarded-for`].split(`,`).slice(-1)[0]);
-			const ip = sha256("192.168.2.12");
+			const ip = sha256((<string>request.headers[`x-forwarded-for`]).split(`,`).slice(-1)[0]);
 			const dateToClaim_ip = db.prepare(`SELECT expires FROM limitByIP WHERE ip=?`).get(ip) as {
 				expires: number;
 			};
@@ -132,8 +132,7 @@ app.get(`/`, async (request, response) => {
 	}
 
 	// Get the IP address of the user
-	// const ip = sha256((<string>request.headers[`x-forwarded-for`]).split(`,`).slice(-1)[0]);
-	const ip = sha256("192.168.2.12");
+	const ip = sha256((<string>request.headers[`x-forwarded-for`]).split(`,`).slice(-1)[0]);
 	const dateToClaim_ip = db.prepare(`SELECT expires FROM limitByIP WHERE ip=?`).get(ip) as {
 		expires: number;
 	};
@@ -161,7 +160,10 @@ app.get(`/`, async (request, response) => {
 
 	response.status(200).render(`index.ejs`, {
 		balance: balance,
-        aads: config.aads,
+		aads: config.aads,
+		captcha: config.hcaptcha.site,
+		donate: config.web_page.donate,
+		copyright: config.web_page.copyright,
 	});
 });
 
@@ -191,8 +193,7 @@ app.post(`/receive`, async (request, response) => {
 		}
 
 		// Get the IP address of the user
-		const ip = sha256("192.168.2.12");
-		// const ip = sha256((<string>request.headers[`x-forwarded-for`]).split(`,`).slice(-1)[0]);
+		const ip = sha256((<string>request.headers[`x-forwarded-for`]).split(`,`).slice(-1)[0]);
 
 		// Check if the user received the coins already
 		const byIP = db.prepare(`SELECT expires FROM limitByIP WHERE ip=?`).all(ip) as { expires: number }[];
