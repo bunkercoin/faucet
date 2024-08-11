@@ -19,7 +19,7 @@ export const getBalance = (): Promise<number> => {
 					jsonrpc: `1.0`,
 					id: `bkc-faucet`,
 					method: `getbalance`,
-					params: [""],
+					params: ["faucet"],
 				}),
 			})
 		)
@@ -65,8 +65,8 @@ export const sendCoins = (address: string, amount: number): Promise<string> => {
 				body: JSON.stringify({
 					jsonrpc: `1.0`,
 					id: `bkc-faucet`,
-					method: `sendtoaddress`,
-					params: [address, amount],
+					method: `sendfrom`,
+					params: ["faucet", address, amount],
 				}),
 			})
 		)
